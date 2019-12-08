@@ -1,0 +1,20 @@
+{
+  "name": "auditum-core",
+  "version": "1.0.0",
+  "description": "Controller module of the Auditum project.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NathanPB/auditum-core.git"
+  },
+  "keywords": [],
+  "author": "NathanPB<nathan.pbombana@gmail.com>(https://github.com/NathanPB/)",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/NathanPB/auditum-core/issues"
+  }
+}
