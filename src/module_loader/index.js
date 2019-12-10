@@ -67,32 +67,36 @@ const ModuleType = {
 const MODULES_PATH = process.env.AUDITUM_MODULES || path.resolve('modules');
 
 /**
- * Checks the structure of a module. The input object
+ * Defines the functions that a module must export.
  *
- * To be satisfied, those conditions must be satisfied:
- * - Case of Scraper module:
- *   - It must export a function named "onRequest";
- *   - It must export a function named "onResponse".
- *
- * - Case of IO module:
- *   - It must be a function.
- *
- * @param {ModuleObject} moduleInfo - The module to inspect
- * @return {boolean} - True if the module is valid, false otherwise.
- * @throws {Error} - If the input parameter is not satisfied.
+ * @see [ModuleType]
+ * @param {string} moduleType - The type of the module.
+ * @return {[string]} - The name of the functions that the module must export.
  * @throws {Error} - If the module type is unknown.
  */
-// eslint-disable-next-line no-unused-vars
-const checkStructure = (moduleInfo) => {
-  switch (moduleInfo.type) {
-    case ModuleType.IO: return (
-      typeof moduleInfo.module['onRequest'] === 'function' &&
-      typeof moduleInfo.module['onResponse'] === 'function'
-    );
-    case ModuleType.SCRAP: return typeof moduleInfo.module === 'function';
-    default: throw new Error(`Unknown module type: ${moduleInfo.type}`);
+const requiredFunctions = (moduleType) => {
+  switch (moduleType) {
+    case ModuleType.IO: return ['init', 'onRequest', 'onResponse'];
+    case ModuleType.SCRAP: return ['init', 'search'];
+    default: throw new Error(`Unknown module type: ${moduleType}`);
   }
 };
+
+/**
+ * Checks the structure of a module.
+ *
+ * To be satisfied, the module must have the exported functions
+ * as described in [requiredFunctions].
+ *
+ * @see [requiredFunctions]
+ * @param {ModuleObject} moduleInfo - The module to inspect
+ * @return {boolean} - True if the module is valid, false otherwise.
+ */
+// eslint-disable-next-line no-unused-vars
+const checkStructure = (moduleInfo) => requiredFunctions(moduleInfo.type)
+    .map(fName => moduleInfo.module[fName])
+    .map(member => typeof member)
+    .every(type => type === 'function');
 
 module.exports = {
   ModuleType, MODULES_PATH
