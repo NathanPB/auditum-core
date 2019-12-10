@@ -16,5 +16,9 @@
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/NathanPB/auditum-core/issues"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mongodb": "^3.3.5"
   }
 }
