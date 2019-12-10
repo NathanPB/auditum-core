@@ -15,5 +15,5 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 const moduleDiscover = require('./module_loader/finder');
 
 moduleDiscover()
-  .then(console.log)
-  .catch(console.error);
+    .then(console.log)
+    .catch(console.error);

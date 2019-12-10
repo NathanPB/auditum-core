@@ -77,16 +77,17 @@ const MODULES_PATH = process.env.AUDITUM_MODULES || path.resolve('modules');
  * - Case of IO module:
  *   - It must be a function.
  *
- * @param moduleInfo {ModuleObject} - The module to inspect
- * @returns {boolean} - True if the module is valid, false otherwise.
+ * @param {ModuleObject} moduleInfo - The module to inspect
+ * @return {boolean} - True if the module is valid, false otherwise.
  * @throws {Error} - If the input parameter is not satisfied.
  * @throws {Error} - If the module type is unknown.
  */
+// eslint-disable-next-line no-unused-vars
 const checkStructure = (moduleInfo) => {
   switch (moduleInfo.type) {
     case ModuleType.IO: return (
-      typeof moduleInfo.module.onRequest === 'function' &&
-      typeof moduleInfo.module.onResponse === 'function'
+      typeof moduleInfo.module['onRequest'] === 'function' &&
+      typeof moduleInfo.module['onResponse'] === 'function'
     );
     case ModuleType.SCRAP: return typeof moduleInfo.module === 'function';
     default: throw new Error(`Unknown module type: ${moduleInfo.type}`);

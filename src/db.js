@@ -14,7 +14,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const MongoClient = require('mongodb').MongoClient;
+const mongoClient = require('mongodb').MongoClient;
 
 /**
  * The available MongoDB collections
@@ -25,15 +25,17 @@ const Collections = {
   DOCUMENTS: 'documents'
 };
 
+
+/* eslint-disable no-multi-spaces */
 /**
  * Creates a MongoClient instance.
  *
- * @param host   {string} - The host of the connection. Default value is an environmental variable named "MONGO_HOST".
- * @param port   {string} - The port of the connection. Default value is an environmental variable named "MONGO_PORT".
- * @param user   {string} - The user to authenticate. Default value is an environmental variable named "MONGO_USER".
- * @param pwd    {string} - The password of the authentication. Default value is an environmental variable named "MONGO_PWD".
- * @param authDb {string} - The name of the database to authenticate. Default value is an environmental variable named "AUTH_DB".
- * @returns {MongoClient} - The [MongoClient] instance ready to connect.
+ * @param {string} host   - The host of the connection. Default value is an environmental variable named "MONGO_HOST".
+ * @param {string} port   - The port of the connection. Default value is an environmental variable named "MONGO_PORT".
+ * @param {string} user   - The user to authenticate. Default value is an environmental variable named "MONGO_USER".
+ * @param {string} pwd    - The password of the authentication. Default value is an environmental variable named "MONGO_PWD".
+ * @param {string} authDb - The name of the database to authenticate. Default value is an environmental variable named "AUTH_DB".
+ * @return {MongoClient}  - The [MongoClient] instance ready to connect.
  */
 const createClient = (
     host   = process.env.MONGO_HOST,
@@ -41,9 +43,10 @@ const createClient = (
     user   = process.env.MONGO_USER,
     pwd    = process.env.MONGO_PWD,
     authDb = process.env.AUTH_DB
-) => MongoClient(`mongodb://${user}:${pwd}@${host}:${port}/${authDb}`);
+) => mongoClient(`mongodb://${user}:${pwd}@${host}:${port}/${authDb}`);
+/* eslint-enable no-multi-spaces */
 
 module.exports = {
-    createClient,
-    Collections
+  createClient,
+  Collections
 };
