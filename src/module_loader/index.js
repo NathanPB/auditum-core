@@ -92,12 +92,44 @@ const requiredFunctions = (moduleType) => {
  * @param {ModuleObject} moduleInfo - The module to inspect
  * @return {boolean} - True if the module is valid, false otherwise.
  */
-// eslint-disable-next-line no-unused-vars
 const checkStructure = (moduleInfo) => requiredFunctions(moduleInfo.type)
     .map(fName => moduleInfo.module[fName])
     .map(member => typeof member)
     .every(type => type === 'function');
 
+/**
+ * Loads and initializes a module.
+ *
+ * This function loads a valid [ModulePackageInfo] into a [ModuleObject]
+ * and triggers the module's "init" function in the specified main script.
+ *
+ * It also checks the module structure.
+ *
+ * @see [checkStructure]
+ * @param {ModulePackageInfo} pkgInfo - The data about the module to load.
+ * @return {Promise<ModuleObject>} - Resolves into the module object after loaded and initialized.
+ * @throws {Error} - If the module structure is not valid.
+ * @throws {Error} - If there is some uncaught exception in the module's main script.
+ */
+const loadModule = async (pkgInfo) => {
+  try {
+    const moduleObject = {
+      ...pkgInfo,
+      module: require(pkgInfo.main)
+    };
+
+    if (!checkStructure(moduleObject)) {
+      throw new Error('Structure not valid');
+    }
+
+    moduleObject.module.init();
+
+    return moduleObject;
+  } catch (e) {
+    throw new Error(`Unable to load module ${pkgInfo.name}: ${e.message}`);
+  }
+};
+
 module.exports = {
-  ModuleType, MODULES_PATH
+  ModuleType, MODULES_PATH, loadModule
 };

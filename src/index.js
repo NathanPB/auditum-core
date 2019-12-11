@@ -13,7 +13,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 const moduleDiscover = require('./module_loader/finder');
+const moduleLoader = require('./module_loader');
 
 moduleDiscover()
-    .then(console.log)
+    .then(modules => {
+      modules.forEach(module => {
+        moduleLoader.loadModule(module)
+            .then(moduleInfo => {
+              console.log(`Successfully loaded module ${moduleInfo.name}`);
+            })
+            .catch(console.error);
+      });
+    })
     .catch(console.error);
