@@ -77,7 +77,7 @@ const MODULES_PATH = process.env.AUDITUM_MODULES || path.resolve('modules');
 const requiredFunctions = (moduleType) => {
   switch (moduleType) {
     case ModuleType.IO: return ['init', 'onRequest', 'onResponse'];
-    case ModuleType.SCRAP: return ['init', 'search'];
+    case ModuleType.SCRAP: return ['init', 'search', 'accept'];
     default: throw new Error(`Unknown module type: ${moduleType}`);
   }
 };
